@@ -18,4 +18,14 @@ class UsersController extends Controller
             'user' => $user
         ]);
     }
+
+    public function store(Request $request)
+    {
+        $this->validate($request,[
+            'name' => 'required | unique:users | min:3 |max:50',
+            'email' => 'email | required | unique:email |max:255',
+            'password' => 'min:6 | required | confirmed',
+        ]);
+        return;
+    }
 }
