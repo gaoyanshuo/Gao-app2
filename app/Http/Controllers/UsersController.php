@@ -22,10 +22,16 @@ class UsersController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'name' => 'required | unique:users | min:3 |max:50',
-            'email' => 'email | required | unique:email |max:255',
-            'password' => 'min:6 | required | confirmed',
+            'name' => 'required|unique:users|max:50',
+            'email' => 'required|email|unique:users|max:255',
+            'password' => 'required|confirmed|min:6'
         ]);
-        return;
+        $user = new User();
+        $user->name = $request->post('name');
+        $user->email = $request->post('email');
+        $user->password = bcrypt($request->post('password'));
+        $user->save();
+        session()->flash('success','新規登録できました');
+        return redirect()->route('users.show',['user' => $user]);
     }
 }
