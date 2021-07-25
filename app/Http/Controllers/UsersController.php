@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -31,6 +32,7 @@ class UsersController extends Controller
         $user->email = $request->post('email');
         $user->password = bcrypt($request->post('password'));
         $user->save();
+        Auth::login($user);
         session()->flash('success','新規登録できました');
         return redirect()->route('users.show',['user' => $user]);
     }
