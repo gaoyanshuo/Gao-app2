@@ -27,9 +27,15 @@ class SessionsController extends Controller
             'password' => 'required'
         ]);
         if (Auth::attempt($credentials,$request->has('remember'))) {
-            session()->flash('success','ようこそ');
-            $fallback = route('users.show',Auth::user());
-            return redirect()->intended($fallback);
+            if (Auth::user()->avtivated){
+                session()->flash('success','ようこそ');
+                $fallback = route('users.show',Auth::user());
+                return redirect()->intended($fallback);
+            } else {
+                Auth::logout();
+                session()->flash('warning','お先に確認メールをチェックして下さい');
+                return redirect('/');
+            }
         } else {
             session()->flash('danger','メールアドレスまたパスワードが一致しません');
             return redirect()->back()->withInput();
