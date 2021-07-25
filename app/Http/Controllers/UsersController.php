@@ -36,4 +36,26 @@ class UsersController extends Controller
         session()->flash('success','新規登録できました');
         return redirect()->route('users.show',['user' => $user]);
     }
+
+    public function edit(User $user)
+    {
+        return view('users.edit',['user' => $user]);
+    }
+
+    public function update(User $user,Request $request)
+    {
+        $this->validate($request,[
+            'name' => 'required|min:3|max:50',
+            'password' => 'nullable|confirmed|min:6'
+            ]);
+
+        $data = [];
+        if ($request->password) {
+            $data['password'] = bcrypt($request->password);
+        }
+        $data['name'] = $request->name;
+        $user->update($data);
+        session()->flash('success','更新できました');
+        return redirect()->route('users.show',[$user->id]);
+    }
 }
