@@ -25,6 +25,12 @@ class SessionsController extends Controller
             session()->flash('danger','メールアドレスまたパスワードが一致しません');
             return redirect()->back()->withInput();
         }
+    }
 
+    public function logout()
+    {
+        Auth::logout();
+        session()->flash('success','ログアウトできました');
+        return redirect()->route('login');
     }
 }
