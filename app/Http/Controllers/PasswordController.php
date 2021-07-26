@@ -11,6 +11,18 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
 class PasswordController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('throttle:2,1',[
+            'only' => ['showLinkRequest']
+        ]);
+
+        $this->middleware('throttle:3,10', [
+            'only' => ['sendResetLinkEmail']
+        ]);
+    }
+
+
     public function showLinkRequest()
     {
         return view('auth.passwords.email');
