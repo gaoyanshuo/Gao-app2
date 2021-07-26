@@ -37,8 +37,10 @@ class UsersController extends Controller
 
     public function show(User $user)
     {
+        $statuses = $user->statuses()->orderByDesc('created_at')->paginate(10);
         return view('users.show',[
-            'user' => $user
+            'user' => $user,
+            'statuses' => $statuses
         ]);
     }
 
@@ -116,5 +118,6 @@ class UsersController extends Controller
         session()->flash('success','削除出来ました');
         return redirect()->back();
     }
+
 
 }
