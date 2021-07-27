@@ -5,7 +5,7 @@ use App\Http\Controllers\StaticPagesController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\SessionsController;
 use App\Http\Controllers\PasswordController;
-
+use App\Http\Controllers\FollowersController;
 
 
 
@@ -38,6 +38,9 @@ Route::get('password/reset/{token}',[PasswordController::class,'showResetForm'])
 Route::post('password/reset',[PasswordController::class,'reset'])->name('password.update');
 //statuses
 Route::resource('statuses','StatusesController',['only' => ['destroy','store']]);
-//following , follower
+//show_following/follower_list
 Route::get('/user/{user}/following',[UsersController::class,'followings'])->name('users.followings');
 Route::get('/user/{user}/followers',[UsersController::class,'followers'])->name('users.followers');
+//follow,unfollow
+Route::post('users/followers/{user}',[FollowersController::class,'store'])->name('followers.store');
+Route::delete('users/followers/{user}',[FollowersController::class,'destroy'])->name('followers.destroy');
