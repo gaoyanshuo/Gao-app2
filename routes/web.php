@@ -38,3 +38,6 @@ Route::get('password/reset/{token}',[PasswordController::class,'showResetForm'])
 Route::post('password/reset',[PasswordController::class,'reset'])->name('password.update');
 //statuses
 Route::resource('statuses','StatusesController',['only' => ['destroy','store']]);
+//following , follower
+Route::get('/user/{user}/following',[UsersController::class,'followings'])->name('users.followings');
+Route::get('/user/{user}/followers',[UsersController::class,'followers'])->name('users.followers');
